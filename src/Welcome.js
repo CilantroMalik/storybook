@@ -15,9 +15,43 @@ export const Welcome = () => {
     const [loginFeedback, setLoginFeedback] = useState("")
 
     const register = () => {
+        fetch("https://cilantroleaf.space/strbk/v1/register", {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                username: regUsername,
+                passwordHash: hash(regPassword)
+            })
+        }).then(res => res.json()).then(data => {
+            setRegisterFeedback(data.response)
+            if (data.response === "success") {
+                navigate("/", {state: {user: regUsername}})
+            }
+        })
     }
 
     const login = () => {
+        fetch("https://cilantroleaf.space/strbk/v1/login", {
+            method: "POST",
+            mode: 'cors',
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: logUsername,
+                passwordHash: hash(logPassword)
+            })
+        }).then(res => res.json()).then(data => {
+            setLoginFeedback(data.response)
+            if (data.response === "success") {
+                navigate("/", {state: {user: logUsername}})
+            }
+        })
     }
 
     return (
