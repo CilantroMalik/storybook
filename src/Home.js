@@ -85,6 +85,14 @@ export const Home = () => {
             }
         })
     }
+
+    const handleInputError = () => {
+        if (joinReqStatus === "failure") {
+            setJoinReqStatus("")
+            setJoinCodeInput("")
+        }
+    }
+
     return (
         <div style={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", fontFamily: "IBM Plex Serif"}}>
             <h1 style={{fontSize: "5rem", fontWeight: "900"}}>———&nbsp;&nbsp;Storybook&nbsp;&nbsp;———</h1>
@@ -109,6 +117,20 @@ export const Home = () => {
                 <h4><em>Use the options above to enter new spaces.</em></h4>
             </div>
             <hr style={{width: "95%", marginTop: "2rem", color: "#f1f7ed"}}/>
+            <h1><strong>Your Spaces</strong></h1>
+            {userSpaces.map(spaceObj => (
+                <div style={{backgroundColor: "#665c81", borderRadius: "1rem", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", height: "5rem", padding: "0.5rem", marginBottom: "1rem"}}>
+                    <h5 style={{marginLeft: "2rem"}}><strong>{spaceObj.name}</strong></h5>
+                    <div style={{backgroundColor: "#a9a9a9", width: "2px", height: "100%", margin: "0 2rem"}}>&nbsp;</div>
+                    <p style={{marginBottom: "0"}}>Code: {spaceObj.code}</p>
+                    <div style={{backgroundColor: "#a9a9a9", width: "2px", height: "100%", margin: "0 2rem"}}>&nbsp;</div>
+                    <p style={{marginBottom: "0"}}>{spaceObj.storyLength}/40 sentences</p>
+                    <div style={{backgroundColor: "#a9a9a9", width: "2px", height: "100%", margin: "0 2rem"}}>&nbsp;</div>
+                    <p style={{marginBottom: "0"}}>{spaceObj.whoseTurn}'s turn</p>
+                    <div style={{backgroundColor: "#a9a9a9", width: "2px", height: "100%", margin: "0 2rem"}}>&nbsp;</div>
+                    <button className="muted-button" style={{marginRight: "2rem"}} onClick={() => navigate("/space", {state: {user: location.state.user, data: spaceObj}})}>Enter</button>
+                </div>
+            ))}
         </div>
     )
 }
