@@ -48,6 +48,43 @@ export const Home = () => {
         return code
     }
 
+    const createSpace = () => {
+        fetch("https://cilantroleaf.space/strbk/v1/create-space", {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                username: location.state.user,
+                spaceCode: createCodeGenerated,
+                spaceName: createSpaceName
+            })
+        }).then(res => res.json()).then(data => setUserSpaces(data.userSpaces))
+    }
+
+    const joinSpace = () => {
+        fetch("https://cilantroleaf.space/strbk/v1/join-space", {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                username: location.state.user,
+                spaceCode: joinCodeInput
+            })
+        }).then(res => res.json()).then(data => {
+            setJoinReqStatus(data.response)
+            if (data.response === "success") {
+                setUserSpaces(data.userSpaces)
+            } else {
+                setJoinCodeInput("Invalid join code...")
+            }
+        })
+    }
     return (
         <div style={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", fontFamily: "IBM Plex Serif"}}>
             <h1 style={{fontSize: "5rem", fontWeight: "900"}}>———&nbsp;&nbsp;Storybook&nbsp;&nbsp;———</h1>
