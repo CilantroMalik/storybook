@@ -21,9 +21,34 @@ export const Space = () => {
     }, [])
 
     const addSentence = () => {
+        fetch("https://cilantroleaf.space/strbk/v1/add-sentence", {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                username: location.state.user,
+                spaceCode: spaceData.code,
+                sentence: sentence
+            })
+        }).then(res => res.json()).then(data => setSpaceData(data.newSpaceData))
+        setSentence("")
     }
 
     const refresh = () => {
+        fetch("https://cilantroleaf.space/strbk/v1/get-space-data", {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                spaceCode: spaceData.code
+            })
+        }).then(res => res.json()).then(data => setSpaceData(data))
     }
 
     return (
