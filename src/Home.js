@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import {useLocation, useNavigate} from "react-router";
 import "./main.css"
-import {hash} from "./utils";
+import { isMobile } from "react-device-detect";
 
 export const Home = () => {
 
@@ -95,42 +95,54 @@ export const Home = () => {
 
     return (
         <div style={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", fontFamily: "IBM Plex Serif"}}>
-            <h1 style={{fontSize: "5rem", fontWeight: "900"}}>———&nbsp;&nbsp;Storybook&nbsp;&nbsp;———</h1>
+            <h1 style={{fontSize: isMobile ? "9vw" : "5rem", fontWeight: "900"}}>———&nbsp;&nbsp;Storybook&nbsp;&nbsp;———</h1>
             <div style={{fontSize: "1.5rem"}}><em style={{fontWeight: "800", marginBottom: "1rem"}}>Hi, {location.state ? location.state.user : ""}!</em>&nbsp;&nbsp;&nbsp;&nbsp;[ <span onMouseEnter={() => setHoveringLogout(true)} onMouseLeave={() => setHoveringLogout(false)} style={{fontWeight: hoveringLogout ? "900" : "300"}} onClick={() => navigate("/welcome")}>logout</span> ]</div>
             <hr style={{width: "95%", color: "#f1f7ed"}}/>
-            <div style={{display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", marginTop: "1rem"}}>
+            <div style={{display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", marginTop: "1rem", marginLeft: "1rem", marginRight: "1rem"}}>
                 <button className="muted-button" style={{marginRight: "2rem", fontSize: "1.5rem", padding: "1rem 1.5rem", borderRadius: "0.5rem"}} onClick={() => changeCreateJoinState("create")}>Create Story Space</button>
                 <button className="muted-button" style={{fontSize: "1.5rem", padding: "1rem 1.5rem", borderRadius: "0.5rem"}} onClick={() => changeCreateJoinState("join")}>Join Story Space</button>
             </div>
             <div style={{display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", marginTop: "2rem", height: createJoinState === "" ? 0 : "5rem", opacity: createJoinState === "" ? 0 : 1, transition: "all 0.5s ease"}}>
-                {createJoinState === "create" && <>
+                {(createJoinState === "create" && !isMobile) && <>
                     <h4>Join Code: <span style={{fontWeight: "800"}}>{createCodeGenerated}</span></h4>
                     <input style={{width: "15rem", marginLeft: "2rem", color: "#f1f7ed"}} type="text" placeholder="Enter space name..." value={createSpaceName} onChange={e => setCreateSpaceName(e.target.value)}/>
                     <button className="muted-button" style={{marginLeft: "2rem"}} onClick={createSpace}>Create</button>
                 </>}
+                {(createJoinState === "create" && isMobile) && <div style={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", marginBottom: "1rem"}}>
+                    <h4>Join Code: <span style={{fontWeight: "800"}}>{createCodeGenerated}</span></h4>
+                    <div style={{display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", marginLeft: "1rem", marginRight: "1rem"}}>
+                        <input style={{width: "10rem", color: "#f1f7ed"}} type="text" placeholder="Enter space name..." value={createSpaceName} onChange={e => setCreateSpaceName(e.target.value)}/>
+                        <button className="muted-button" style={{marginLeft: "2rem"}} onClick={createSpace}>Create</button>
+                    </div>
+                </div>}
                 {createJoinState === "join" && <>
-                    <input style={{width: "15rem", color: joinReqStatus === "failure" ? "#a67070": "#f1f7ed", borderColor: joinReqStatus === "failure" ? "#a67070": "#f1f7ed"}} onMouseEnter={handleInputError} type="text" placeholder="Enter join code..." value={joinCodeInput} onChange={e => setJoinCodeInput(e.target.value)}/>
+                    <input style={{width: isMobile ? "10rem" : "15rem", color: joinReqStatus === "failure" ? "#a67070": "#f1f7ed", borderColor: joinReqStatus === "failure" ? "#a67070": "#f1f7ed"}} onMouseEnter={handleInputError} type="text" placeholder="Enter join code..." value={joinCodeInput} onChange={e => setJoinCodeInput(e.target.value)}/>
                     <button className="muted-button" style={{marginLeft: "2rem"}} onClick={joinSpace}>Join</button>
                 </>}
             </div>
             <div style={{height: createJoinState === "" ? "5rem" : 0, opacity: createJoinState === "" ? "5rem" : 0, transition: "height 0.5s ease"}}>
-                <h4><em>Use the options above to enter new spaces.</em></h4>
+                <h4 style={{textAlign: "center"}}><em>Use the options above to enter new spaces.</em></h4>
             </div>
             <hr style={{width: "95%", marginTop: "2rem", color: "#f1f7ed"}}/>
             <h1><strong>Your Spaces</strong></h1>
-            {userSpaces.map(spaceObj => (
-                <div style={{backgroundColor: "#665c81", borderRadius: "1rem", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", height: "5rem", padding: "0.5rem", marginBottom: "1rem"}}>
-                    <h5 style={{marginLeft: "2rem"}}><strong>{spaceObj.name}</strong></h5>
-                    <div style={{backgroundColor: "#a9a9a9", width: "2px", height: "100%", margin: "0 2rem"}}>&nbsp;</div>
-                    <p style={{marginBottom: "0"}}>Code: {spaceObj.code}</p>
-                    <div style={{backgroundColor: "#a9a9a9", width: "2px", height: "100%", margin: "0 2rem"}}>&nbsp;</div>
-                    <p style={{marginBottom: "0"}}>{spaceObj.storyLength}/40 sentences</p>
-                    <div style={{backgroundColor: "#a9a9a9", width: "2px", height: "100%", margin: "0 2rem"}}>&nbsp;</div>
-                    <p style={{marginBottom: "0"}}>{spaceObj.whoseTurn}'s turn</p>
-                    <div style={{backgroundColor: "#a9a9a9", width: "2px", height: "100%", margin: "0 2rem"}}>&nbsp;</div>
-                    <button className="muted-button" style={{marginRight: "2rem"}} onClick={() => navigate("/space", {state: {user: location.state.user, data: spaceObj}})}>Enter</button>
-                </div>
-            ))}
+            {userSpaces.map(spaceObj => { return <>
+                { isMobile ?
+                    <div style={{backgroundColor: "#665c81", borderRadius: "1rem", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", marginBottom: "1.5rem", marginLeft: "1rem", marginRight: "1rem", padding: "0.5rem"}}>
+                    </div>
+                    :
+                    <div style={{backgroundColor: "#665c81", borderRadius: "1rem", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", height: "5rem", padding: "0.5rem", marginBottom: "1rem"}}>
+                        <h5 style={{marginLeft: "2rem"}}><strong>{spaceObj.name}</strong></h5>
+                        <div style={{backgroundColor: "#a9a9a9", width: "2px", height: "100%", margin: "0 2rem"}}>&nbsp;</div>
+                        <p style={{marginBottom: "0"}}>Code: {spaceObj.code}</p>
+                        <div style={{backgroundColor: "#a9a9a9", width: "2px", height: "100%", margin: "0 2rem"}}>&nbsp;</div>
+                        <p style={{marginBottom: "0"}}>{spaceObj.storyLength}/40 sentences</p>
+                        <div style={{backgroundColor: "#a9a9a9", width: "2px", height: "100%", margin: "0 2rem"}}>&nbsp;</div>
+                        <p style={{marginBottom: "0"}}>{spaceObj.whoseTurn}'s turn</p>
+                        <div style={{backgroundColor: "#a9a9a9", width: "2px", height: "100%", margin: "0 2rem"}}>&nbsp;</div>
+                        <button className="muted-button" style={{marginRight: "2rem"}} onClick={() => navigate("/space", {state: {user: location.state.user, data: spaceObj}})}>Enter</button>
+                    </div>
+                }</>
+            })}
         </div>
     )
 }
