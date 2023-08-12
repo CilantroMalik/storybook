@@ -128,6 +128,15 @@ export const Home = () => {
             {userSpaces.map(spaceObj => { return <>
                 { isMobile ?
                     <div style={{backgroundColor: "#665c81", borderRadius: "1rem", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", marginBottom: "1.5rem", marginLeft: "1rem", marginRight: "1rem", padding: "0.5rem"}}>
+                        <h4 style={{marginBottom: "0.5rem"}}><strong>{spaceObj.name}</strong>&nbsp;&nbsp;<span style={{fontWeight: "300"}}>(Code: {spaceObj.code})</span></h4>
+                        <div style={{backgroundColor: "#a9a9a9", width: "100%", height: "2px", margin: "1.5rem 0 0.5rem 0"}}>&nbsp;</div>
+                        <div style={{backgroundColor: "#665c81", borderRadius: "1rem", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", height: "5rem"}}>
+                            <p style={{marginLeft: "1rem", marginBottom: "0", textAlign: "center"}}>{spaceObj.storyLength}/40 sentences</p>
+                            <div style={{backgroundColor: "#a9a9a9", width: "2px", height: "100%", margin: "0 1rem"}}>&nbsp;</div>
+                            <p style={{marginBottom: "0", textAlign: "center"}}>{spaceObj.whoseTurn}'s turn</p>
+                            <div style={{backgroundColor: "#a9a9a9", width: "2px", height: "100%", margin: "0 1rem"}}>&nbsp;</div>
+                            <button className="muted-button" style={{marginRight: "1rem"}} onClick={() => navigate("/space", {state: {user: location.state.user, data: spaceObj}})}>Enter</button>
+                        </div>
                     </div>
                     :
                     <div style={{backgroundColor: "#665c81", borderRadius: "1rem", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", height: "5rem", padding: "0.5rem", marginBottom: "1rem"}}>
