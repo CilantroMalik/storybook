@@ -57,9 +57,9 @@ export const Welcome = () => {
 
     return (
         <div style={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", fontFamily: "IBM Plex Serif"}}>
-            <h1 style={{fontSize: "5rem", fontWeight: "900"}}>———&nbsp;&nbsp;Storybook&nbsp;&nbsp;———</h1>
+            <h1 style={{fontSize: isMobile ? "9vw" : "5rem", fontWeight: "900"}}>———&nbsp;&nbsp;Storybook&nbsp;&nbsp;———</h1>
             <hr style={{width: "95%", color: "#f1f7ed"}}/>
-            <div style={{display: "flex", flexDirection: isMobile ? "column" : "row", justifyContent: "center", alignItems: "center", marginTop: "2.5rem"}}>
+            <div style={{display: "flex", flexDirection: isMobile ? "column" : "row", justifyContent: "center", alignItems: "center", margin: "2.5rem 1rem"}}>
                 <div style={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", border: "2px solid #f1f7ed", borderRadius: "1rem", marginRight: isMobile ? "0" : "4rem", padding: "1.5rem 4rem"}}>
                     <h4 style={{marginTop: 0}}>Register</h4>
                     <p style={{marginBottom: "2rem"}}>{registerFeedback === "failure" ? <em style={{color: "#a67070"}}>This username already exists — please use a different one.</em> : <em>If it's your first time here, welcome to the Storybook :)</em>}</p>
