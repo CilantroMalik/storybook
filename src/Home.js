@@ -178,6 +178,11 @@ export const Home = () => {
                             <div style={{backgroundColor: "#a9a9a9", width: "2px", height: "100%", margin: "0 1rem"}}>&nbsp;</div>
                             <button className="muted-button" style={{marginRight: "1rem"}} onClick={() => navigate("/space", {state: {user: location.state.user, data: spaceObj}})}>Enter</button>
                         </div>
+                        <div style={{backgroundColor: "#a9a9a9", width: "100%", height: "2px", margin: "0.5rem 0 0rem 0"}}>&nbsp;</div>
+                        <div style={{backgroundColor: "#665c81", borderRadius: "1rem", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", height: "5rem"}}>
+                            {spaceObj.members.length !== 1 && <button className="muted-button" style={{margin: "0"}} onClick={() => leaveSpace(spaceObj)}>Leave Space</button>}
+                            {location.state && location.state.user === spaceObj.owner && <button className="muted-button" style={{marginLeft: "1rem", borderColor: "#ee9a9a", color: "#ee9a9a"}} onClick={() => deleteSpace(spaceObj)}>Delete Space</button>}
+                        </div>
                     </div>
                     :
                     <div style={{backgroundColor: "#665c81", borderRadius: "1rem", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", height: "5rem", padding: "0.5rem", marginBottom: "1rem"}}>
