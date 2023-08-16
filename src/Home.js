@@ -98,6 +98,24 @@ export const Home = () => {
         }
     }
 
+    const leaveSpace = (spaceObj) => {
+        fetch("https://cilantroleaf.space/strbk/v1/leave-space", {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                username: location.state.user,
+                spaceCode: spaceObj.code
+            })
+        }).then(res => res.json()).then(data => {
+            console.log(data)
+            setUserSpaces(data.userSpaces)
+        })
+    }
+
     return (
         <div style={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", fontFamily: "IBM Plex Serif"}}>
             <h1 style={{fontSize: isMobile ? "9vw" : "5rem", fontWeight: "900"}}>———&nbsp;&nbsp;Storybook&nbsp;&nbsp;———</h1>
@@ -154,6 +172,7 @@ export const Home = () => {
                         <p style={{marginBottom: "0"}}>{spaceObj.whoseTurn}'s turn</p>
                         <div style={{backgroundColor: "#a9a9a9", width: "2px", height: "100%", margin: "0 2rem"}}>&nbsp;</div>
                         <button className="muted-button" style={{marginRight: "2rem"}} onClick={() => navigate("/space", {state: {user: location.state.user, data: spaceObj}})}>Enter</button>
+                        {spaceObj.members.length !== 1 && <button className="muted-button" style={{marginRight: "2rem"}} onClick={() => leaveSpace(spaceObj)}>Leave Space</button>}
                     </div>
                 }</>
             })}
