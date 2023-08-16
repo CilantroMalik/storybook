@@ -20,19 +20,24 @@ export const Home = () => {
         if (!location.state) {
             navigate("/welcome")
         } else {
-            fetch("https://cilantroleaf.space/strbk/v1/get-user-spaces", {
-                method: "POST",
-                mode: "cors",
-                headers: {
-                    "Access-Control-Allow-Origin": "*",
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    username: location.state.user
-                })
-            }).then(res => res.json()).then(data => setUserSpaces(data))
+            updateUserSpaces()
         }
+        setInterval(updateUserSpaces, 5000)
     }, [])
+
+    const updateUserSpaces = () => {
+        fetch("https://cilantroleaf.space/strbk/v1/get-user-spaces", {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                username: location.state.user
+            })
+        }).then(res => res.json()).then(data => setUserSpaces(data))
+    }
 
     const changeCreateJoinState = newState => {
         if (newState === "create") {

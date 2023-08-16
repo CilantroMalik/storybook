@@ -19,6 +19,7 @@ export const Space = () => {
         } else {
             setSpaceData(location.state.data)
         }
+        setInterval(refresh, 5000)
     }, [])
 
     const addSentence = () => {
